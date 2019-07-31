@@ -16,8 +16,7 @@ import kotlin.reflect.KClass
 
 class SecondFragment : MvvmFragment<SecondViewModel>() {
 
-    override val vmClass: KClass<SecondViewModel>
-        get() = SecondViewModel::class
+    override val vmClass: KClass<SecondViewModel> = SecondViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
         return ViewModelFactory()

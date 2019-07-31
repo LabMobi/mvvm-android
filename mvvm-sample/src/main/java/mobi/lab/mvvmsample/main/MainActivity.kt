@@ -12,8 +12,7 @@ import kotlin.reflect.KClass
 
 class MainActivity : MvvmActivity<MainViewModel>() {
 
-    override val vmClass: KClass<MainViewModel>
-        get() = MainViewModel::class
+    override val vmClass: KClass<MainViewModel> = MainViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
         return ViewModelFactory()

@@ -10,8 +10,7 @@ import mobi.lab.mvvm.MvvmFragment
 
 class ${className}Fragment : MvvmFragment<${className}ViewModel>() {
 
-    override val vmClass: KClass<${className}ViewModel>
-        get() = ${className}ViewModel::class
+    override val vmClass: KClass<${className}ViewModel> = ${className}ViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
 
