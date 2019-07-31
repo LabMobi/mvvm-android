@@ -19,7 +19,5 @@
             </intent-filter>
         </activity>
         <activity android:name=".second.SecondActivity" />
-<!--        <activity android:name=".third.ThirdActivity" />-->
-<!--        <activity android:name=".mvvmexample.ExampleMvvmActivity" />-->
     </application>
 </manifest>

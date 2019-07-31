@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$junitVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
 
