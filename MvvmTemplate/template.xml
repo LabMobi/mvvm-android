@@ -1,7 +1,7 @@
 <template format="4"
     revision="1"
-    name="MVP Template Activity"
-    description="Creates a new MVP classes - Presenter, View, Model and Contract between the three">
+    name="MVVM Template Activity"
+    description="Creates new MVVM classes - Activity, Fragment, ViewModel">
 
     <category value="Kotlin"/>
 
@@ -16,8 +16,8 @@
         name="Functionality Name"
         type="string"
         constraints="class|unique|nonempty"
-        default="MvpFunction"
-        help="The name of the functionality that requires MVP views"/>
+        default="MvvmFunction"
+        help="The name of the functionality that requires MVVM views"/>
 
     <globals file="globals.xml.ftl" />
     <execute file="recipe.xml.ftl" />

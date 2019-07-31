@@ -1,4 +1,4 @@
-package ${packageName}
+package mobi.lab.mvvmsample.test
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import mobi.lab.mvvm.MvvmFragment
 
-class ${className}Fragment : MvvmFragment<${className}ViewModel>() {
+class TestFragment : MvvmFragment<TestViewModel>() {
 
-    override val vmClass: KClass<${className}ViewModel>
-        get() = ${className}ViewModel::class
+    override val vmClass: KClass<TestViewModel>
+        get() = TestViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
 
@@ -22,8 +22,8 @@ class ${className}Fragment : MvvmFragment<${className}ViewModel>() {
     }
 
     companion object {
-        fun newInstance(): ${className}Fragment {
-            return ${className}Fragment()
+        fun newInstance(): TestFragment {
+            return TestFragment()
         }
     }
 }
