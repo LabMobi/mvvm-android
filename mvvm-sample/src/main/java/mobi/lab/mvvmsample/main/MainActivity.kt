@@ -16,7 +16,7 @@ class MainActivity : MvvmActivity<MainViewModel>() {
         get() = MainViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory.getInstance()
+        return ViewModelFactory()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

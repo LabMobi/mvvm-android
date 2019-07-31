@@ -20,7 +20,7 @@ class SecondFragment : MvvmFragment<SecondViewModel>() {
         get() = SecondViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory.getInstance()
+        return ViewModelFactory()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,7 +36,7 @@ class SecondFragment : MvvmFragment<SecondViewModel>() {
         initViewModel()
     }
 
-    fun initViewModel() {
+    private fun initViewModel() {
         viewModel.checked.onEachNotNull { checkboxChoice.isChecked = it }
         viewModel.action.onEachEvent { action ->
             when (action) {
@@ -46,11 +46,11 @@ class SecondFragment : MvvmFragment<SecondViewModel>() {
         }
     }
 
-    fun showConfirmCoolDialog() {
+    private fun showConfirmCoolDialog() {
         Toast.makeText(activity, getString(R.string.text_cool), Toast.LENGTH_SHORT).show()
     }
 
-    fun showConfirmNotCoolDialog() {
+    private fun showConfirmNotCoolDialog() {
         Toast.makeText(activity, getString(R.string.text_not_cool), Toast.LENGTH_SHORT).show()
     }
 
