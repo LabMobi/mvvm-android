@@ -5,14 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import mobi.lab.mvvm.Event
 import mobi.lab.mvvm.MvvmViewModel
 
-class SecondViewModel constructor(model: SecondModel) : MvvmViewModel<SecondContract.Model>(model), SecondContract.ViewModel {
+class SecondViewModel : MvvmViewModel() {
 
     val checked = MutableLiveData<Boolean>()
     val action = MutableLiveData<Event<Action>>()
-
-    init {
-        model.viewModel = this
-    }
 
     fun onCheckedChanged(checked: Boolean) {
         this.checked.value = checked
@@ -26,17 +22,17 @@ class SecondViewModel constructor(model: SecondModel) : MvvmViewModel<SecondCont
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e(TAG, "onDestroy")
-    }
-
-    companion object {
-        const val TAG = "SecondViewModel"
+    override fun onCleared() {
+        super.onCleared()
+        Log.d(TAG, "onCleared")
     }
 
     sealed class Action {
         object ShowConfirmCoolDialog : Action()
         object ShowConfirmNotCoolDialog : Action()
+    }
+
+    companion object {
+        const val TAG = "SecondViewModel"
     }
 }

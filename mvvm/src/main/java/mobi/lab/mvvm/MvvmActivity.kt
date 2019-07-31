@@ -4,13 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import mobi.lab.mvvm.contracts.MvvmModelContract
-import mobi.lab.mvvm.util.observeOnEach
-import mobi.lab.mvvm.util.observeOnEachEvent
-import mobi.lab.mvvm.util.observeOnEachNotNull
 import kotlin.reflect.KClass
 
-abstract class MvvmActivity<VM : MvvmViewModel<out MvvmModelContract>> : AppCompatActivity() {
+abstract class MvvmActivity<VM : MvvmViewModel> : AppCompatActivity() {
 
     protected abstract val vmClass: KClass<VM>
     protected abstract fun provideViewModelFactory(): ViewModelProvider.Factory

@@ -1,21 +1,14 @@
 package mobi.lab.mvvmsample.main
 
-import mobi.lab.mvvm.MvvmModel
+class MainModel {
 
-
-class MainModel : MvvmModel<MainContract.ViewModel>(), MainContract.Model {
-
-    override fun loadItems() {
+    fun loadItems(success: () -> Unit, error: () -> Unit) {
         // Sample logic here
-        val error = false
-        if (error) {
-            viewModel::onLoadItemsError
+        val fail = false
+        if (fail) {
+            error.invoke()
         } else {
-            viewModel::onLoadItemsSuccess
+            success.invoke()
         }
-    }
-
-    override fun onDestroy() {
-        // Cleanup any larger resources if needed
     }
 }

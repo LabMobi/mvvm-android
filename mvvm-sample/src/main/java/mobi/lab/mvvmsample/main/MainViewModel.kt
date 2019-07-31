@@ -5,37 +5,36 @@ import androidx.lifecycle.MutableLiveData
 import mobi.lab.mvvm.Event
 import mobi.lab.mvvm.MvvmViewModel
 
-class MainViewModel constructor(model: MainModel) : MvvmViewModel<MainContract.Model>(model), MainContract.ViewModel {
+class MainViewModel(private val model: MainModel) : MvvmViewModel() {
 
     val action = MutableLiveData<Event<Action>>()
 
     init {
-        model.viewModel = this
-        model.loadItems()
+        model.loadItems(this::onLoadItemsSuccess, this::onLoadItemsError)
     }
 
     fun onButtonClicked() {
         action.value = Event(Action.OpenSecondScreen)
     }
 
-    override fun onLoadItemsSuccess() {
-        Log.e(TAG, "onLoadItemsSuccess")
+    private fun onLoadItemsSuccess() {
+        Log.d(TAG, "onLoadItemsSuccess")
     }
 
-    override fun onLoadItemsError() {
-        Log.e(TAG, "onLoadItemsError")
+    private fun onLoadItemsError() {
+        Log.d(TAG, "onLoadItemsError")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e(TAG, "onDestroy")
-    }
-
-    companion object {
-        const val TAG = "MainViewModel"
+    override fun onCleared() {
+        super.onCleared()
+        Log.d(TAG, "onCleared")
     }
 
     sealed class Action {
         object OpenSecondScreen : Action()
+    }
+
+    companion object {
+        const val TAG = "MainViewModel"
     }
 }

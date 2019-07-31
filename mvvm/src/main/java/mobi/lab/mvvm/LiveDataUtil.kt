@@ -1,10 +1,8 @@
-package mobi.lab.mvvm.util
+package mobi.lab.mvvm
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import mobi.lab.mvvm.Event
-import mobi.lab.mvvm.EventObserver
 
 fun <T> observeOnEachNotNull(liveData: LiveData<T>, lifecycleOwner: LifecycleOwner, block: (T) -> Unit) {
     liveData.observe(lifecycleOwner, Observer { it?.let(block) })

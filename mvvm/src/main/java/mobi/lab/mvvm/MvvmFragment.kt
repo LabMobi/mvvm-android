@@ -4,13 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import mobi.lab.mvvm.contracts.MvvmModelContract
-import mobi.lab.mvvm.util.observeOnEach
-import mobi.lab.mvvm.util.observeOnEachEvent
-import mobi.lab.mvvm.util.observeOnEachNotNull
 import kotlin.reflect.KClass
 
-abstract class MvvmFragment<VM : MvvmViewModel<out MvvmModelContract>> : Fragment(){
+abstract class MvvmFragment<VM : MvvmViewModel> : Fragment() {
 
     protected abstract val vmClass: KClass<VM>
     protected abstract fun provideViewModelFactory(): ViewModelProvider.Factory
