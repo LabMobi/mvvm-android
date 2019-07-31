@@ -1,0 +1,42 @@
+repositories {
+    google()
+    mavenCentral()
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        compileSdkVersion rootProject.compileSdk
+        targetSdkVersion rootProject.targetSdk
+        minSdkVersion rootProject.minSdk
+        version '1.0.0'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    android.libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                output.outputFileName = "${archivesBaseName}-${version}-${variant.buildType.name}.aar"
+            }
+        }
+    }
+}
+
+dependencies {
+    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mvvm-sample</string>
+    <string name="label_button">Button</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="text_cool">Cool!</string>
+    <string name="text_not_cool">Not cool!</string>
+</resources>

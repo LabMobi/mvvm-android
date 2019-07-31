@@ -1,0 +1,25 @@
+<template format="4"
+    revision="1"
+    name="MVP Template Activity"
+    description="Creates a new MVP classes - Presenter, View, Model and Contract between the three">
+
+    <category value="Kotlin"/>
+
+    <parameter
+        id="packageName"
+        name="Package name"
+        type="string"
+        constraints="package"
+        default="com.mycompany.myapp" />
+
+    <parameter id="className"
+        name="Functionality Name"
+        type="string"
+        constraints="class|unique|nonempty"
+        default="MvpFunction"
+        help="The name of the functionality that requires MVP views"/>
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+
+</template>
