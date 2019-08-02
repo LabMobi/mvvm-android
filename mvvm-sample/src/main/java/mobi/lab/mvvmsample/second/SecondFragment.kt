@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_second.checkboxChoice
 import mobi.lab.mvvm.MvvmFragment
 import mobi.lab.mvvmsample.R
-import mobi.lab.mvvmsample.ViewModelFactory
 import kotlin.reflect.KClass
 
 class SecondFragment : MvvmFragment<SecondViewModel>() {
@@ -19,7 +19,8 @@ class SecondFragment : MvvmFragment<SecondViewModel>() {
     override val vmClass: KClass<SecondViewModel> = SecondViewModel::class
 
     override fun provideViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory()
+        // An example using a ViewModel that saves its state across process restarts
+        return SavedStateViewModelFactory(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

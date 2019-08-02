@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import mobi.lab.mvvmsample.main.MainModel
 import mobi.lab.mvvmsample.main.MainViewModel
-import mobi.lab.mvvmsample.second.SecondViewModel
 
 /**
  * A creator is used to inject the product ID into the ViewModel
@@ -20,7 +19,6 @@ class ViewModelFactory : ViewModelProvider.Factory {
         return with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(MainModel())
-                isAssignableFrom(SecondViewModel::class.java) -> SecondViewModel()
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T
