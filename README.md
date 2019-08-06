@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation "mobi.lab.mvvm:mvvm-lib:1.0.0-release@aar"
+    implementation "mobi.lab.mvvm:mvvm:1.0.0-release@aar"
 }
 ```
 
