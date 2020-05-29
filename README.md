@@ -32,10 +32,51 @@ repositories {
 }
 
 dependencies {
-    implementation "mobi.lab.mvvm:mvvm:1.0.0-release@aar"
+    implementation "mobi.lab.mvvm:mvvm:2.0.0-release@aar"
 }
 ```
 
 This assumes 2 things:
-* The version is `1.0.0`
-* The main application module has a `libs/` directory that contains the `mvvm-1.0.0-release.aar` artefact.
+* The version is `2.0.0`
+* The main application module has a `libs/` directory that contains the `mvvm-2.0.0-release.aar` artefact.
+
+## Creating ViewModels
+
+### Activity
+```
+class MyActivity : MvvmActivity {
+    // Lazy init
+    private val viewModel: MainViewModel by lazyViewModel { ViewModelFactory() }
+
+    // Direct creation
+    private val viewModel: MainViewModel = createViewModel(this, ViewModelFactory(), MyViewModel::class)
+}
+```
+
+### Fragment
+```
+class MyFragment : MvvmFragment {
+    // Lazy init
+    private val viewModel: MainViewModel by lazyViewModel { ViewModelFactory() }
+
+    // Lazy init with Activity context
+    private val viewModel: MainViewModel by lazyActivityViewModel { ViewModelFactory() }
+
+    // Direct creation
+    private val viewModel: MainViewModel = createViewModel(this, ViewModelFactory(), MyViewModel::class)
+
+    // Direct creation with Activity context. This is just for example purposes. requireActivity() will always throw at this stage as Activity reference is null.
+    private val viewModel: MainViewModel = createViewModel(this.requireActivity(), ViewModelFactory(), MyViewModel::class)
+}
+```
+
+### Custom Fragment/Activity
+```
+class FragmentOrActivity : FragmentOrActivity(), MvvmLiveDataExtensions {
+    // MvvmLiveDataExtensions provides helpful extensions when working with LiveData and Event classes
+    override fun getLifecycleOwner(): LifecycleOwner = this
+
+    // Custom ViewModel instantiation with Mvvm's createViewModel() function
+    private val viewModel: MainViewModel by lazy { createViewModel(this, ViewModelFactory(), MyViewModel::class) }
+}
+```
