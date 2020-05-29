@@ -18,7 +18,7 @@ android {
         compileSdkVersion rootProject.compileSdk
         targetSdkVersion rootProject.targetSdk
         minSdkVersion rootProject.minSdk
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         versionName = "0.0.1"
         versionCode = 1
     }
@@ -40,6 +40,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidxJunitVersion"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
