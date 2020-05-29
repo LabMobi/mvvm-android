@@ -23,7 +23,7 @@ abstract class MvvmFragment : Fragment, MvvmLiveDataExtensions {
      * |    MyViewModel as T     |  lazy wrapper  | factory lambda written outside of the function |
      * val viewModel: MyViewModel by lazyViewModel { ViewModelFactory() }
      */
-    inline fun <reified T : ViewModel> lazyViewModel(noinline factory: () -> ViewModelProvider.Factory) = lazy {
+    protected inline fun <reified T : ViewModel> lazyViewModel(noinline factory: () -> ViewModelProvider.Factory) = lazy {
         createViewModel(this, factory.invoke(), T::class)
     }
 
@@ -31,7 +31,7 @@ abstract class MvvmFragment : Fragment, MvvmLiveDataExtensions {
      * Same as lazyViewModel, but automatically uses Activity as the ViewModelStoreOwner.
      * Convenience function when we want to share Activity level ViewModels between Fragments
      */
-    inline fun <reified T : ViewModel> lazyActivityViewModel(noinline factory: () -> ViewModelProvider.Factory) = lazy {
+    protected inline fun <reified T : ViewModel> lazyActivityViewModel(noinline factory: () -> ViewModelProvider.Factory) = lazy {
         createViewModel(this.requireActivity(), factory.invoke(), T::class)
     }
 }

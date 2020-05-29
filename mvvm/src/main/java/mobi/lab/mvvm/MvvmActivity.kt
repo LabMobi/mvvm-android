@@ -23,7 +23,7 @@ abstract class MvvmActivity : AppCompatActivity, MvvmLiveDataExtensions {
      * |    MyViewModel as T     |  lazy wrapper  | factory lambda written outside of the function |
      * val viewModel: MyViewModel by lazyViewModel { ViewModelFactory() }
      */
-    inline fun <reified T : ViewModel> lazyViewModel(noinline factory: () -> ViewModelProvider.Factory) = lazy {
+    protected inline fun <reified T : ViewModel> lazyViewModel(noinline factory: () -> ViewModelProvider.Factory) = lazy {
         createViewModel(this, factory.invoke(), T::class)
     }
 }
