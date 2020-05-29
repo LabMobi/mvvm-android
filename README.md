@@ -37,8 +37,8 @@ dependencies {
 ```
 
 This assumes 2 things:
-* The version is `1.0.0`
-* The main application module has a `libs/` directory that contains the `mvvm-1.0.0-release.aar` artefact.
+* The version is `2.0.0`
+* The main application module has a `libs/` directory that contains the `mvvm-2.0.0-release.aar` artefact.
 
 ## Creating ViewModels
 
