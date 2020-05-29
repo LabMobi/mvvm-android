@@ -1,24 +1,10 @@
 package ${packageName}
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import kotlin.reflect.KClass
 import mobi.lab.mvvm.MvvmFragment
 
-class ${className}Fragment : MvvmFragment<${className}ViewModel>() {
+class ${className}Fragment : MvvmFragment(R.layout.fragment_${camelCaseToUnderscore(className)}) {
 
-    override val vmClass: KClass<${className}ViewModel> = ${className}ViewModel::class
-
-    override fun provideViewModelFactory(): ViewModelProvider.Factory {
-
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_, container, false)
-    }
+    private val viewModel: ${className}ViewModel by lazyViewModel { factory }
 
     companion object {
         fun newInstance(): ${className}Fragment {

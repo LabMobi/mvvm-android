@@ -1,9 +1,9 @@
 <template format="4"
     revision="1"
-    name="MVVM Template Activity"
-    description="Creates new MVVM classes - Activity, Fragment, ViewModel">
+    name="MVVM Template Fragment"
+    description="Creates new MVVM classes - Fragment, ViewModel">
 
-    <category value="Kotlin"/>
+    <category value="Mvvm"/>
 
     <parameter
         id="packageName"
