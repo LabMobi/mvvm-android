@@ -8,19 +8,21 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_second.checkboxChoice
 import mobi.lab.mvvm.MvvmFragment
+import mobi.lab.mvvm.createViewModel
+import mobi.lab.mvvmsample.App
 import mobi.lab.mvvmsample.R
-import kotlin.reflect.KClass
 
-class SecondFragment : MvvmFragment<SecondViewModel>() {
+class SecondFragment : MvvmFragment(R.layout.fragment_second) {
 
-    override val vmClass: KClass<SecondViewModel> = SecondViewModel::class
-
-    override fun provideViewModelFactory(): ViewModelProvider.Factory {
-        // An example using a ViewModel that saves its state across process restarts
-        return SavedStateViewModelFactory(this)
+    /**
+     * Example of direct ViewModel creation with a custom Factory.
+     * Surround with lazy {} to instantiate the ViewModel after the Fragment's lifecycle is in a proper state.
+     * When using a direct call to createViewModel(), the ViewModel would be instantiated whenever our Fragment's constructor is called.
+     */
+    private val viewModel: SecondViewModel by lazy {
+        createViewModel(this, SavedStateViewModelFactory(App.instance, this), SecondViewModel::class)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
