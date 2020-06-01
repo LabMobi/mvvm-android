@@ -3,10 +3,10 @@ package mobi.lab.mvvmsample.second
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import mobi.lab.mvvm.Event
-import mobi.lab.mvvm.MvvmViewModel
 
-class SecondViewModel(private val state: SavedStateHandle) : MvvmViewModel() {
+class SecondViewModel(private val state: SavedStateHandle) : ViewModel() {
 
     val checked = MutableLiveData<Boolean>()
     val action = MutableLiveData<Event<Action>>()

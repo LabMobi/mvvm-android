@@ -2,10 +2,10 @@ package mobi.lab.mvvmsample.main
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import mobi.lab.mvvm.Event
-import mobi.lab.mvvm.MvvmViewModel
 
-class MainViewModel(private val model: MainModel) : MvvmViewModel() {
+class MainViewModel(private val model: MainModel) : ViewModel() {
 
     val action = MutableLiveData<Event<Action>>()
 
