@@ -40,33 +40,41 @@ This assumes 2 things:
 * The version is `2.0.0`
 * The main application module has a `libs/` directory that contains the `mvvm-2.0.0-release.aar` artefact.
 
+## Library contents
+The library contains 2 main elements:
+
+1. MvvmLiveDataExtensions interface and Event class. These provide convenience methods for handling LiveData contents and
+Event is used to handle actions only once.
+2. MvvmActivity and MvvmFragment classes that implement MvvmLiveDataExtensions interface and require a `viewModel` member.
+
+
 ## Creating ViewModels
+
+ViewModels can be easily created by Kotlin extensions provided by `"androidx.fragment:fragment-ktx:<version"` dependency.
+
 
 ### Activity
 ```
 class MyActivity : MvvmActivity {
-    // Lazy init
-    private val viewModel: MainViewModel by lazyViewModel { ViewModelFactory() }
+    // No factory
+    private val viewModel: MainViewModel by viewModels()
 
-    // Direct creation
-    private val viewModel: MainViewModel = createViewModel(this, ViewModelFactory(), MyViewModel::class)
+    // Custom factory
+    private val viewModel: MainViewModel by viewModels { myFactory }
 }
 ```
 
 ### Fragment
 ```
 class MyFragment : MvvmFragment {
-    // Lazy init
-    private val viewModel: MainViewModel by lazyViewModel { ViewModelFactory() }
+    // No factory
+    private val viewModel: MainViewModel by viewModels()
 
-    // Lazy init with Activity context
-    private val viewModel: MainViewModel by lazyActivityViewModel { ViewModelFactory() }
+    // Custom factory
+    private val viewModel: MainViewModel by viewModels { myFactory }
 
-    // Direct creation
-    private val viewModel: MainViewModel = createViewModel(this, ViewModelFactory(), MyViewModel::class)
-
-    // Direct creation with Activity context. This is just for example purposes. requireActivity() will always throw at this stage as Activity reference is null.
-    private val viewModel: MainViewModel = createViewModel(this.requireActivity(), ViewModelFactory(), MyViewModel::class)
+    // Activity context ViewModel
+    private val viewModel: MainViewModel by activityViewModels { myFactory }
 }
 ```
 
@@ -77,6 +85,6 @@ class FragmentOrActivity : FragmentOrActivity(), MvvmLiveDataExtensions {
     override fun getLifecycleOwner(): LifecycleOwner = this
 
     // Custom ViewModel instantiation with Mvvm's createViewModel() function
-    private val viewModel: MainViewModel by lazy { createViewModel(this, ViewModelFactory(), MyViewModel::class) }
+    private val viewModel: MainViewModel by lazy { ViewModelProvider(this, factory).get(MainViewModel::class.java) }
 }
 ```
