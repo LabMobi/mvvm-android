@@ -27,6 +27,7 @@ buildscript {
     ext.appCompatVersion = '1.1.0'
     ext.lifecycleVersion = '2.2.0'
     ext.savedStateVersion = '2.2.0'
+    ext.fragmentVersion = '1.2.4'
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
