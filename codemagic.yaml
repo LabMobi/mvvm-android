@@ -1,0 +1,89 @@
+# Has a separate flows for develop branch (automatic builds),
+# Merge Request (automatic builds) and master branch Release builds (manual builds).
+
+android_artifacts: &androidArtifacts # Section def
+  - emulator.log
+  - ProgressButton/build/reports
+  - ProgressButton/build/outputs/androidTest-results
+  - ProgressButton/build/outputs/logs
+  - ProgressButton/build/outputs/**/*.aar
+  - ProgressButton/build/outputs/**/mapping.txt
+
+debug-emails: &debugEmails
+  - lauris.kruusamae@lab.mobi
+
+release-emails: &releaseEmails
+  - lauris.kruusamae@lab.mobi
+
+# Flows
+workflows:
+  release-builds:
+    name: Release Builds
+    scripts:
+      - &stepLocalSetup # Step def
+        name: Set up local properties and permissons
+        script: |
+          chmod +x gradlew
+          echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/local.properties"
+      - &stepBuildRelease # Step Def
+        name: Build Android
+        script: ./gradlew buildAll
+# Restore tests when implemented
+#      - &stepStartEmulator # Step def
+#        name: Launch emulator
+#        script: |
+#          cd $ANDROID_HOME/tools
+#          emulator -avd emulator &
+#          adb wait-for-device
+#      - &stepRunTests # Step def
+#        name: Test Android
+#        script: |
+#          ./gradlew connectedAndroidTest
+#          adb logcat -d > emulator.log
+    publishing:
+      email:
+        recipients: *releaseEmails
+    artifacts: *androidArtifacts
+  develop-builds:
+    name: Develop builds
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: true
+    scripts:
+      - *stepLocalSetup
+      - &stepBuildDebug # Step def
+        name: Build Android
+        script: ./gradlew buildAll
+# Restore tests when implemented
+#      - *stepStartEmulator
+#      - *stepRunTests
+    artifacts: *androidArtifacts
+    publishing:
+      email:
+        recipients: *debugEmails
+  merge-requests:
+    name: Merge requests
+    triggering:
+      events:
+        - pull_request
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: false
+      cancel_previous_builds: true
+    scripts:
+      - *stepLocalSetup
+      - *stepBuildDebug
+# Restore tests when implemented
+#      - *stepStartEmulator
+#      - *stepRunTests
+    publishing:
+      email:
+        recipients: *debugEmails
+        notify:
+          success: false
