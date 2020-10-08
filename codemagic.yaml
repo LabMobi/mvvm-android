@@ -20,7 +20,7 @@ workflows:
   release-builds:
     name: Release Builds
     scripts:
-      - name: Verify master branch
+      - name: Check 'master' branch
         script: if [ "$FCI_BRANCH" != "master" ]; then exit 1; fi
       - &stepLocalSetup # Step def
         name: Set up local properties and permissons
