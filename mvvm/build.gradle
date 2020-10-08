@@ -37,3 +37,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
 }
+
+def GROUP_CI_BUILD_TASKS = 'Build'
+task buildAll(dependsOn: [
+        'clean',
+        ':mvvm-sample:build',
+        'build'
+])
+buildAll.group = GROUP_CI_BUILD_TASKS
+buildAll.description = 'Build the library and the sample application'
+build.mustRunAfter clean
