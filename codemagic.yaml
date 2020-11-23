@@ -3,11 +3,11 @@
 
 android_artifacts: &androidArtifacts # Section def
   - emulator.log
-  - ProgressButton/build/reports
-  - ProgressButton/build/outputs/androidTest-results
-  - ProgressButton/build/outputs/logs
-  - ProgressButton/build/outputs/**/*.aar
-  - ProgressButton/build/outputs/**/mapping.txt
+  - mvvm/build/reports
+  - mvvm/build/outputs/androidTest-results
+  - mvvm/build/outputs/logs
+  - mvvm/build/outputs/**/*.aar
+  - mvvm/build/outputs/**/mapping.txt
 
 debug-emails: &debugEmails
   - lauris.kruusamae@lab.mobi
