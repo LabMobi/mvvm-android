@@ -1,5 +1,11 @@
 # Changelog
 
+**Version 2.0.4**
+
+Date: 23.11.2020
+
+- Added equals() and hashCode() implementations to Event class
+
 **Version 2.0.3**
 
 Date: 03.06.2020
