@@ -1,5 +1,11 @@
 # Changelog
 
+**Version 2.0.5**
+
+Date: 08.02.2021
+
+- Added MvvmDialogFragment implementation
+
 **Version 2.0.4**
 
 Date: 23.11.2020
