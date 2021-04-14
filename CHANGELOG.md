@@ -1,5 +1,11 @@
 # Changelog
 
+**Version 2.0.6**
+
+Date: 14.04.2021
+
+- Changed min sdk from 21 to 19
+
 **Version 2.0.5**
 
 Date: 08.02.2021
