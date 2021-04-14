@@ -1,20 +1,22 @@
 package mobi.lab.mvvmsample.main
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import mobi.lab.mvvm.Event
 
 class MainViewModel(private val model: MainModel) : ViewModel() {
 
-    val action = MutableLiveData<Event<Action>>()
+    private val _action = MutableLiveData<Event<Action>>()
+    val action = _action as LiveData<Event<Action>>
 
     init {
         model.loadItems(this::onLoadItemsSuccess, this::onLoadItemsError)
     }
 
     fun onButtonClicked() {
-        action.value = Event(Action.OpenSecondScreen)
+        _action.value = Event(Action.OpenSecondScreen)
     }
 
     private fun onLoadItemsSuccess() {
