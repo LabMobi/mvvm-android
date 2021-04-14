@@ -6,20 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.SavedStateViewModelFactory
-import mobi.lab.mvvm.MvvmFragment
+import mobi.lab.mvvm.MvvmLiveDataExtensions
 import mobi.lab.mvvmsample.App
 import mobi.lab.mvvmsample.R
 import mobi.lab.mvvmsample.databinding.FragmentSecondBinding
 
-class SecondFragment : MvvmFragment(R.layout.fragment_second) {
+class SecondFragment : Fragment(R.layout.fragment_second), MvvmLiveDataExtensions {
 
-    override val viewModel: SecondViewModel by viewModels {
+    private val viewModel: SecondViewModel by viewModels {
         SavedStateViewModelFactory(App.instance, this)
     }
 
     private lateinit var binding: FragmentSecondBinding
+
+    override fun getLifecycleOwner(): LifecycleOwner = this
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSecondBinding.inflate(inflater, container, false)

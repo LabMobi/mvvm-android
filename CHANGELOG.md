@@ -1,5 +1,11 @@
 # Changelog
 
+**Version 2.0.7**
+
+Date: 14.04.2021
+
+- Removed MvvmActivity, MvvmFragment and MvvmDialogFragment classes to discourage unnecessary inheritance.
+
 **Version 2.0.6**
 
 Date: 14.04.2021
