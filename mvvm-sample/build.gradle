@@ -4,10 +4,13 @@ repositories {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,10 +36,6 @@ android {
             outputs.upToDateWhen { false }
             showStandardStreams = true
         }
-    }
-
-    androidExtensions {
-        experimental = true
     }
 }
 
