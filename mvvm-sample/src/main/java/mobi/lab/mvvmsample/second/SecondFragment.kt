@@ -21,18 +21,19 @@ class SecondFragment : Fragment(R.layout.fragment_second), MvvmLiveDataExtension
         SavedStateViewModelFactory(App.instance, this)
     }
 
-    private lateinit var binding: FragmentSecondBinding
+    private var binding: FragmentSecondBinding? = null
 
     override fun getLifecycleOwner(): LifecycleOwner = this
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentSecondBinding.inflate(inflater, container, false)
+        val binding = FragmentSecondBinding.inflate(inflater, container, false)
+        this.binding = binding
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        binding?.apply {
             buttonConfirm.setOnClickListener { viewModel.onConfirmClicked() }
             checkboxChoice.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean -> viewModel.onCheckedChanged(isChecked) }
         }
@@ -40,7 +41,11 @@ class SecondFragment : Fragment(R.layout.fragment_second), MvvmLiveDataExtension
     }
 
     private fun initViewModel() {
-        viewModel.checked.onEachNotNull { binding.checkboxChoice.isChecked = it }
+        viewModel.checked.onEachNotNull {
+            binding?.apply {
+                checkboxChoice.isChecked = it
+            }
+        }
         viewModel.action.onEachEvent { action ->
             when (action) {
                 is SecondViewModel.Action.ShowConfirmCoolDialog -> showConfirmCoolDialog()
