@@ -1,5 +1,11 @@
 # Changelog
 
+**Version 2.0.8**
+
+Date: 24.10.2021
+
+- Renamed Event to SingleEvent. Event name tends to clash with various classes in projects.
+
 **Version 2.0.7**
 
 Date: 14.04.2021

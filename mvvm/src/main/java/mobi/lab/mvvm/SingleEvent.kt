@@ -18,7 +18,7 @@ package mobi.lab.mvvm
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
  */
-data class Event<out T>(private val content: T) {
+data class SingleEvent<out T>(private val content: T) {
 
     var hasBeenHandled = false
         private set // Allow external read but not write
@@ -48,7 +48,7 @@ data class Event<out T>(private val content: T) {
             return false
         }
 
-        other as Event<*>
+        other as SingleEvent<*>
 
         if (content != other.content) {
             return false

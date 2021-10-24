@@ -16,7 +16,7 @@ android {
         compileSdkVersion rootProject.compileSdk
         targetSdkVersion rootProject.targetSdk
         minSdkVersion rootProject.minSdk
-        version '2.0.7'
+        version '2.0.8'
     }
 
     android.libraryVariants.all { variant ->

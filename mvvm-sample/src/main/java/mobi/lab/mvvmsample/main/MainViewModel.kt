@@ -4,19 +4,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import mobi.lab.mvvm.Event
+import mobi.lab.mvvm.SingleEvent
 
 class MainViewModel(private val model: MainModel) : ViewModel() {
 
-    private val _action = MutableLiveData<Event<Action>>()
-    val action = _action as LiveData<Event<Action>>
+    private val _action = MutableLiveData<SingleEvent<Action>>()
+    val action = _action as LiveData<SingleEvent<Action>>
 
     init {
         model.loadItems(this::onLoadItemsSuccess, this::onLoadItemsError)
     }
 
     fun onButtonClicked() {
-        _action.value = Event(Action.OpenSecondScreen)
+        _action.value = SingleEvent(Action.OpenSecondScreen)
     }
 
     private fun onLoadItemsSuccess() {
