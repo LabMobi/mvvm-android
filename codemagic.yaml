@@ -19,6 +19,7 @@ release-emails: &releaseEmails
 workflows:
   release-builds:
     name: Release Builds
+    instance_type: linux
     scripts:
       - name: Check 'master' branch
         script: if [ "$FCI_BRANCH" != "master" ]; then exit 1; fi
@@ -36,6 +37,7 @@ workflows:
     artifacts: *androidArtifacts
   develop-builds:
     name: Develop builds
+    instance_type: linux
     triggering:
       events:
         - push
@@ -55,6 +57,7 @@ workflows:
         recipients: *debugEmails
   merge-requests:
     name: Merge requests
+    instance_type: linux
     triggering:
       events:
         - pull_request
