@@ -1,6 +1,9 @@
-# MVVM-Kotlin library
+# !!! Deprecated as a separate library. It was merged into our P42 template. !!!
 
-## !!! Deprecated as a separate library. It was merged into our P42 template. !!!
+
+
+
+# MVVM-Kotlin library
 
 ## Using the Android Studio Template
 
