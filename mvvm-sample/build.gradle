@@ -7,6 +7,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    android {
+        namespace 'mobi.lab.mvvmsample'
+    }
+
     buildFeatures {
         viewBinding = true
     }

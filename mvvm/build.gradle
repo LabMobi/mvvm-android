@@ -7,6 +7,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    android {
+        namespace 'mobi.lab.mvvm'
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -16,12 +24,17 @@ android {
         compileSdkVersion rootProject.compileSdk
         targetSdkVersion rootProject.targetSdk
         minSdkVersion rootProject.minSdk
-        version '2.0.8'
+        version rootProject.ext.libraryVersion
     }
 
-    android.libraryVariants.all { variant ->
+    libraryVariants.all { variant ->
         variant.outputs.all { output ->
-            output.outputFileName = "${archivesBaseName}-${version}-${variant.buildType.name}.aar"
+            if (variant.buildType.getName().contains("release")) {
+                // Don't add the variant name to release artefacts
+                outputFileName = "${archivesBaseName}-${rootProject.ext.libraryVersion}.aar"
+            } else {
+                outputFileName = "${archivesBaseName}-${variant.name}-${rootProject.ext.libraryVersion}.aar"
+            }
         }
     }
 }
@@ -31,7 +44,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 }
 
