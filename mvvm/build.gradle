@@ -20,6 +20,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        merge '**/LICENSE.txt'
+    }
+
     defaultConfig {
         compileSdkVersion rootProject.compileSdk
         targetSdkVersion rootProject.targetSdk
