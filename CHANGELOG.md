@@ -1,5 +1,11 @@
 # Changelog
 
+**Version 2.1.0**
+
+Date: 25.07.2023
+
+- Added extension functions to `MvvmExtensions.kt` file to be able to pass in SavedStateHandle to ViewModelFactories.
+
 **Version 2.0.8**
 
 Date: 24.10.2021

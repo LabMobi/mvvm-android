@@ -20,6 +20,8 @@ workflows:
   release-builds:
     name: Release Builds
     instance_type: linux
+    environment:
+      java: 17
     scripts:
       - name: Check 'master' branch
         script: if [ "$FCI_BRANCH" != "master" ]; then exit 1; fi
@@ -38,6 +40,8 @@ workflows:
   develop-builds:
     name: Develop builds
     instance_type: linux
+    environment:
+      java: 17
     triggering:
       events:
         - push
@@ -58,6 +62,8 @@ workflows:
   merge-requests:
     name: Merge requests
     instance_type: linux
+    environment:
+      java: 17
     triggering:
       events:
         - pull_request

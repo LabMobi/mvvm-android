@@ -6,9 +6,12 @@ allprojects {
 }
 
 ext {
-    minSdk = 19
-    compileSdk = 31
-    targetSdk = 31
+    minSdk = 21
+    compileSdk = 33
+    targetSdk = 33
+
+    // Current version of the library
+    libraryVersion = "2.1.0"
 }
 
 buildscript {
@@ -19,17 +22,20 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
     }
-    ext.kotlinVersion = '1.5.31'
-    ext.ktlintGradleVersion = '9.2.1'
+    ext.kotlinVersion = '1.9.0'
+    // NB! Make sure to update the kltint version set in the root build.gradle file. subprojects / ktlint / version
+    // NB! ktlint-gradle doesn't always depend on the latest ktlint version, but since it is a thin wrapper around ktlint
+    // NB! it can be usefult to use a newer version of ktlint to get ruleset updates, etc.
+    ext.ktlintGradleVersion = '11.5.0'
     ext.junitVersion = '4.13.1'
-    ext.testRunnerVersion = '1.3.0'
+    ext.testRunnerVersion = '1.5.2'
     ext.androidxJunitVersion = '1.1.2'
-    ext.appCompatVersion = '1.2.0'
+    ext.appCompatVersion = '1.6.1'
     ext.lifecycleVersion = '2.2.0'
     ext.savedStateVersion = '2.2.0'
-    ext.fragmentVersion = '1.2.5'
+    ext.fragmentVersion = '1.6.0'
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.android.tools.build:gradle:8.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintGradleVersion"
     }
@@ -39,7 +45,7 @@ subprojects {
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
     ktlint {
-        android = true
+        version = "0.50.0"
         outputToConsole = true
     }
 }

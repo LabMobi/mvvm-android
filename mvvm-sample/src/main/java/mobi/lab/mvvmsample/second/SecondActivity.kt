@@ -18,9 +18,9 @@ class SecondActivity : AppCompatActivity() {
             return
         }
         supportFragmentManager
-                .beginTransaction()
-                .add(R.id.layoutFragmentContainer, fragmentInstance, tag)
-                .commit()
+            .beginTransaction()
+            .add(R.id.layoutFragmentContainer, fragmentInstance, tag)
+            .commit()
     }
 
     companion object {
