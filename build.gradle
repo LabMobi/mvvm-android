@@ -27,6 +27,7 @@ buildscript {
     // NB! ktlint-gradle doesn't always depend on the latest ktlint version, but since it is a thin wrapper around ktlint
     // NB! it can be usefult to use a newer version of ktlint to get ruleset updates, etc.
     ext.ktlintGradleVersion = '11.5.0'
+    ext.detectGradleVersion = '1.23.1'
     ext.junitVersion = '4.13.1'
     ext.testRunnerVersion = '1.5.2'
     ext.androidxJunitVersion = '1.1.2'
@@ -38,14 +39,50 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintGradleVersion"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detectGradleVersion"
     }
 }
 
 subprojects {
+    // KTLint (Kotlin code style enforcer)
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
-
     ktlint {
         version = "0.50.0"
         outputToConsole = true
     }
+
+    // Detekt (Kotlin static analyser)
+    apply(plugin: 'io.gitlab.arturbosch.detekt')
+    detekt {
+        // Manually add our custom lib/java source dir here
+        source = files(
+                "src/main/java",
+                "src/test/java",
+                "java"
+        )
+
+        allRules = true // Include all rules
+        buildUponDefaultConfig = true // preconfigure defaults (see the rule set file below for explanations)
+        config = files("${project.rootDir}/config/detekt/detekt-config.yaml") // point to your custom config defining rules to run, overwriting default behavior
+
+        reports {
+            html.enabled = true // Create a HTML report
+            xml.enabled = false // XML report not needed
+            txt.enabled = false // txt report not needed
+        }
+    }
+    tasks.detekt.jvmTarget = "1.8"
+    afterEvaluate {
+        // Make sure detekt is executed with all the other linters for all modules
+        check.dependsOn "detekt"
+    }
+
+    def GROUP_VERIFICATION_TASKS = "Verification"
+    task checkCode(dependsOn: ["detekt", "ktlintCheck"])
+    checkCode.group = GROUP_VERIFICATION_TASKS
+    checkCode.description = "Run detekt and ktlint"
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

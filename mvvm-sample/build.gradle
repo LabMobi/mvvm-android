@@ -57,3 +57,13 @@ dependencies {
 
     implementation project(':mvvm')
 }
+
+def GROUP_CI_BUILD_TASKS = "Build"
+
+task buildAllDebug(dependsOn: ["build", ":mvvm:buildLibDebug"])
+buildAllDebug.group = GROUP_CI_BUILD_TASKS
+buildAllDebug.description = "Build the debug version"
+
+task buildAllRelease(dependsOn: ["build", ":mvvm:buildLibRelease"])
+buildAllRelease.group = GROUP_CI_BUILD_TASKS
+buildAllRelease.description = "Build the release version"

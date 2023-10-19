@@ -52,12 +52,12 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 }
 
-def GROUP_CI_BUILD_TASKS = 'Build'
-task buildAll(dependsOn: [
-        'clean',
-        ':mvvm-sample:build',
-        'build'
-])
-buildAll.group = GROUP_CI_BUILD_TASKS
-buildAll.description = 'Build the library and the sample application'
-build.mustRunAfter clean
+def GROUP_CI_BUILD_TASKS = "Build"
+
+task buildLibDebug(dependsOn: ["build"])
+buildLibDebug.group = GROUP_CI_BUILD_TASKS
+buildLibDebug.description = "Build the debug version of components lib"
+
+task buildLibRelease(dependsOn: ["buildLibDebug"])
+buildLibRelease.group = GROUP_CI_BUILD_TASKS
+buildLibRelease.description = "Build the release version of components lib"
