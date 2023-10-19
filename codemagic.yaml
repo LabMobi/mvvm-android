@@ -1,45 +1,88 @@
 # Has a separate flows for develop branch (automatic builds),
 # Merge Request (automatic builds) and master branch Release builds (manual builds).
+definitions:
+  android_artifacts: &androidArtifacts # Section def
+    - emulator.log
+    - mvvm-sample/build/reports
+    - mvvm-sample/build/outputs/androidTest-results
+    - mvvm-sample/build/outputs/logs
+    - mvvm-sample/build/outputs/**/*.apk
+    - mvvm-sample/build/outputs/**/*.aab
+    - mvvm-sample/build/outputs/**/mapping.txt
+    - mvvm/build/reports
+    - mvvm/build/outputs/androidTest-results
+    - mvvm/build/outputs/logs
+    - mvvm/build/outputs/**/*.aar
+    - mvvm/build/outputs/**/mapping.txt
 
-android_artifacts: &androidArtifacts # Section def
-  - emulator.log
-  - mvvm/build/reports
-  - mvvm/build/outputs/androidTest-results
-  - mvvm/build/outputs/logs
-  - mvvm/build/outputs/**/*.aar
-  - mvvm/build/outputs/**/mapping.txt
-
-debug-emails: &debugEmails
-  - lauris.kruusamae@lab.mobi
-
-release-emails: &releaseEmails
-  - lauris.kruusamae@lab.mobi
+  debug-emails: &debugEmails
+    - lauris.kruusamae@lab.mobi
+    - harri.kirik@lab.mobi
+  release-emails: &releaseEmails
+    - lauris.kruusamae@lab.mobi
+    - harri.kirik@lab.mobi
+  scripts:
+    # Local setup
+    - &stepLocalSetup
+      name: Set up local properties and permissions
+      script: |
+        chmod +x gradlew
+        echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/local.properties"
+    # Run checkCode
+    - &stepCheckCode
+      name: Check code style and formatting
+      script: ./gradlew checkCode
+    # Build DEBUG
+    - &stepBuildDebug
+      name: Build Android
+      script: ./gradlew clean buildAllDebug
+    # Build RELEASE
+    - &stepBuildRelease
+      name: Build Library
+      script: ./gradlew clean buildAllRelease
+    # Build PUBLISH
+    - &stepBuildPublish
+      name: Publish to Maven Central
+      script: |
+        echo $PUBLISH_PROPS | base64 --decode > publish.properties
+        ./gradlew buildAndPublishRelease
+    
 
 # Flows
 workflows:
   release-builds:
-    name: Release Builds
-    instance_type: linux
+    name: Release builds for verification (main branch only)
+    instance_type: linux_x2
     environment:
       java: 17
     scripts:
-      - name: Check 'master' branch
-        script: if [ "$FCI_BRANCH" != "master" ]; then exit 1; fi
-      - &stepLocalSetup # Step def
-        name: Set up local properties and permissons
-        script: |
-          chmod +x gradlew
-          echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/local.properties"
-      - &stepBuildRelease # Step Def
-        name: Build Android
-        script: ./gradlew buildAll
+      - name: Check 'main' branch
+        script: if [ "$FCI_BRANCH" != "main" ]; then exit 1; fi
+      - *stepLocalSetup
+      - *stepCheckCode
+      - *stepBuildRelease
+    publishing:
+      email:
+        recipients: *releaseEmails
+    artifacts: *androidArtifacts
+  publish-builds:
+    name: Publish to Maven builds (main branch only)
+    instance_type: linux_x2
+    environment:
+      java: 17
+      groups:
+        - publishing_props
+    scripts:
+      - *stepLocalSetup
+      - *stepCheckCode
+      - *stepBuildPublish
     publishing:
       email:
         recipients: *releaseEmails
     artifacts: *androidArtifacts
   develop-builds:
-    name: Develop builds
-    instance_type: linux
+    name: Development builds
+    instance_type: linux_x2
     environment:
       java: 17
     triggering:
@@ -52,16 +95,15 @@ workflows:
           source: true
     scripts:
       - *stepLocalSetup
-      - &stepBuildDebug # Step def
-        name: Build Android
-        script: ./gradlew buildAll
+      - *stepCheckCode
+      - *stepBuildDebug
     artifacts: *androidArtifacts
     publishing:
       email:
         recipients: *debugEmails
   merge-requests:
     name: Merge requests
-    instance_type: linux
+    instance_type: linux_x2
     environment:
       java: 17
     triggering:
@@ -74,6 +116,7 @@ workflows:
       cancel_previous_builds: true
     scripts:
       - *stepLocalSetup
+      - *stepCheckCode
       - *stepBuildDebug
     publishing:
       email:
