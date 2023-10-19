@@ -18,15 +18,15 @@ package mobi.lab.mvvm
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
  */
-data class SingleEvent<out T>(private val content: T) {
+public data class SingleEvent<out T>(private val content: T) {
 
-    var hasBeenHandled = false
+    public var hasBeenHandled: Boolean = false
         private set // Allow external read but not write
 
     /**
      * Returns the content and prevents its use again.
      */
-    fun getContentIfNotHandled(): T? {
+    public fun getContentIfNotHandled(): T? {
         return if (hasBeenHandled) {
             null
         } else {
@@ -38,7 +38,7 @@ data class SingleEvent<out T>(private val content: T) {
     /**
      * Returns the content, even if it's already been handled.
      */
-    fun peekContent(): T = content
+    public fun peekContent(): T = content
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

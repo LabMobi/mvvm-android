@@ -1,4 +1,5 @@
-# Mobi Lab MVVM library
+![Mobi Lab](docs/assets/mobilab-header-logo.png)
+# Mobi Lab MVVM
 
 Mobi Lab MVVM library (mvvm-android) is a library for using the MVVM architecture in your Android application.
 
