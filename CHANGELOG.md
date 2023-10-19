@@ -1,63 +1,71 @@
-# Changelog
+# Changelog for Mobi Lab MVVM
 
-**Version 2.1.0**
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project does not use semantic versioning.
 
-Date: 25.07.2023
+## 2.1.0 - 2023.07.25
+
+### Added
 
 - Added extension functions to `MvvmExtensions.kt` file to be able to pass in SavedStateHandle to ViewModelFactories.
 
-**Version 2.0.8**
+## 2.0.8 - 2021.10.24
 
-Date: 24.10.2021
+### Changed
 
 - Renamed Event to SingleEvent. Event name tends to clash with various classes in projects.
 
-**Version 2.0.7**
+## 2.0.7 - 2021.04.14
 
-Date: 14.04.2021
+### Removed
 
 - Removed MvvmActivity, MvvmFragment and MvvmDialogFragment classes to discourage unnecessary inheritance.
 
-**Version 2.0.6**
+## 2.0.6 - 2021.04.14
 
-Date: 14.04.2021
+### Changed
 
 - Changed min sdk from 21 to 19
 
-**Version 2.0.5**
+## 2.0.5 - 2021.02.08
 
-Date: 08.02.2021
+### Added
 
 - Added MvvmDialogFragment implementation
 
-**Version 2.0.4**
+## 2.0.4 - 2020.11.23
 
-Date: 23.11.2020
+### Added
 
 - Added equals() and hashCode() implementations to Event class
 
-**Version 2.0.3**
+## 2.0.3 - 2020.06.03
 
-Date: 03.06.2020
+### Removed
 
 - Removed lazy wrapper functions for creating ViewModels. They are already implemented in androidx.fragment:fragment-ktx package.
 
-**Version 2.0.2**
+## 2.0.2 - 2020.06.01
 
-Date: 01.06.2020
+### Removed
 
 - Removed MvvmViewModel class
 
-**Version 2.0.1**
+## 2.0.1 - 2020.05.29
 
-Date: 29.05.2020
+### Changed
 
 - Made lazy wrapper functions protected withing MvvmActivity and MvvmFragment
 
-**Version 2.0.0**
+## 2.0.0 - 2020.05.29
 
-Date: 29.05.2020
+### Added
+
+- Added convenient lazy wrapper functions to easily create ViewModels
+
+### Changed
+
+- Moved LiveData extensions into a reusable interface
+
+### Removed
 
 - Removed generics from MvvmActivity and MvvmFragment
-- Moved LiveData extensions into a reusable interface
-- Added convenient lazy wrapper functions to easily create ViewModels
