@@ -1,55 +1,19 @@
-# !!! Deprecated as a separate library. It was merged into our P42 template. !!!
+# Mobi Lab MVVM library
 
-
-
-
-# MVVM-Kotlin library
-
-## Using the Android Studio Template
-
-To make your life a little easier, we have created a template for creating Activity, Fragment, Contract, ViewModel and Model classes for you.
-Simply copy the ``MvvmTemplate`` folder to following directory:
-
-```
-{{ANDROID_STUDIO_LOCATION}/plugins/android/lib/templates/other/
-```
-
-On MacOs:
-
-```
-/Applications/Android Studio.app/Contents/plugins/android/lib/templates/other/
-```
+Mobi Lab MVVM library (mvvm-android) is a library for using the MVVM architecture in your Android application.
 
 ## Adding the library to a project
 
-To add the library we need the `.aar` artefact. Either build it locally or take it from Nevercode's `mvvm-android` project.
+Maven Central artifact available from https://central.sonatype.com/search?q=mobi.lab.mvvm
 
-##### Gradle
-
-Add the following to your main application module's `build.gradle` file:
-
+```groovy
+implementation 'mobi.lab.mvvm:mvvm:x.y.z' // Check the latest version from Maven Central
 ```
-repositories {
-   flatDir {
-        dirs 'libs'
-    }
-}
-
-dependencies {
-    implementation "mobi.lab.mvvm:mvvm:2.0.0-release@aar"
-}
-```
-
-This assumes 2 things:
-* The version is `2.0.0`
-* The main application module has a `libs/` directory that contains the `mvvm-2.0.0-release.aar` artefact.
 
 ## Library contents
-The library contains 2 main elements:
+The library the following elements:
 
-1. MvvmLiveDataExtensions interface and Event class. These provide convenience methods for handling LiveData contents and
-Event is used to handle actions only once.
-2. MvvmActivity and MvvmFragment classes that implement MvvmLiveDataExtensions interface and require a `viewModel` member.
+1. `MvvmLiveDataExtensions` interface, `MvvmExtensions` extensions, and `SingleEvent` class. These provide convenience methods for handling LiveData contents and SingleEvent is used to handle actions only once.
 
 
 ## Creating ViewModels
@@ -58,8 +22,8 @@ ViewModels can be easily created by Kotlin extensions provided by `"androidx.fra
 
 
 ### Activity
-```
-class MyActivity : MvvmActivity {
+```kotlin
+class MyActivity : AppCompatActivity, MvvmLiveDataExtensions {
     // No factory
     private val viewModel: MainViewModel by viewModels()
 
@@ -69,8 +33,8 @@ class MyActivity : MvvmActivity {
 ```
 
 ### Fragment
-```
-class MyFragment : MvvmFragment {
+```kotlin
+class MyFragment : Fragment, MvvmLiveDataExtensions {
     // No factory
     private val viewModel: MainViewModel by viewModels()
 
@@ -79,13 +43,8 @@ class MyFragment : MvvmFragment {
 
     // Activity context ViewModel
     private val viewModel: MainViewModel by activityViewModels { myFactory }
-}
-```
-
-### Custom Fragment/Activity
-```
-class FragmentOrActivity : FragmentOrActivity(), MvvmLiveDataExtensions {
-    // MvvmLiveDataExtensions provides helpful extensions when working with LiveData and Event classes
+    
+     // MvvmLiveDataExtensions provides helpful extensions when working with LiveData and Event classes
     override fun getLifecycleOwner(): LifecycleOwner = this
 
     // Custom ViewModel instantiation with Mvvm's createViewModel() function
