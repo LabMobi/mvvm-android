@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistryOwner
 
-fun <T : Any> MutableLiveData<T>.asLiveData() = this as LiveData<T>
-fun <T : Any> MutableLiveData<T?>.asNullableLiveData() = this as LiveData<T?>
+public fun <T : Any> MutableLiveData<T>.asLiveData(): LiveData<T> = this
+public fun <T : Any> MutableLiveData<T?>.asNullableLiveData(): LiveData<T?> = this
 
 /**
  * Activity based Assisted Injection
@@ -21,7 +21,7 @@ fun <T : Any> MutableLiveData<T?>.asNullableLiveData() = this as LiveData<T?>
  * Convenience function to init ViewModels lazily using Assisted Injection.
  * Wraps the assisted factory invocation with a ViewModelProvider.Factory
  */
-inline fun <reified VM : ViewModel> ComponentActivity.assistedViewModels(
+public inline fun <reified VM : ViewModel> ComponentActivity.assistedViewModels(
     crossinline assistedViewModelFactory: () -> VM
 ): Lazy<VM> {
     return lazy(LazyThreadSafetyMode.NONE) { createViewModel(this, assistedViewModelFactory) }
@@ -33,7 +33,7 @@ inline fun <reified VM : ViewModel> ComponentActivity.assistedViewModels(
  * Convenience function to init ViewModels lazily using Assisted Injection.
  * Wraps the assisted factory invocation with a ViewModelProvider.Factory
  */
-inline fun <reified VM : ViewModel> Fragment.assistedViewModels(
+public inline fun <reified VM : ViewModel> Fragment.assistedViewModels(
     crossinline assistedViewModelFactory: () -> VM
 ): Lazy<VM> {
     return lazy(LazyThreadSafetyMode.NONE) { createViewModel(this, assistedViewModelFactory) }
@@ -45,7 +45,7 @@ inline fun <reified VM : ViewModel> Fragment.assistedViewModels(
  * Convenience function to init ViewModels lazily using Assisted Injection and get access to SavedStateHandle.
  * Wraps the assisted factory invocation with a AbstractSavedStateViewModelFactory
  */
-inline fun <reified VM : ViewModel> ComponentActivity.assistedSavedStateViewModels(
+public inline fun <reified VM : ViewModel> ComponentActivity.assistedSavedStateViewModels(
     crossinline initialStateFactory: () -> Bundle? = { null },
     crossinline savedStateViewModelFactory: (handle: SavedStateHandle) -> VM
 ): Lazy<VM> {
@@ -58,7 +58,7 @@ inline fun <reified VM : ViewModel> ComponentActivity.assistedSavedStateViewMode
  * Convenience function to init ViewModels lazily using Assisted Injection and get access to SavedStateHandle.
  * Wraps the assisted factory invocation with a AbstractSavedStateViewModelFactory
  */
-inline fun <reified VM : ViewModel> Fragment.assistedSavedStateViewModels(
+public inline fun <reified VM : ViewModel> Fragment.assistedSavedStateViewModels(
     crossinline initialStateFactory: () -> Bundle? = { null },
     crossinline savedStateViewModelFactory: (handle: SavedStateHandle) -> VM
 ): Lazy<VM> {
@@ -68,7 +68,7 @@ inline fun <reified VM : ViewModel> Fragment.assistedSavedStateViewModels(
 /**
  * Internal function to create SavedStateViewModels by invoking a custom factory
  */
-inline fun <reified VM : ViewModel> createSavedStateViewModel(
+public inline fun <reified VM : ViewModel> createSavedStateViewModel(
     viewModelStoreOwner: ViewModelStoreOwner,
     savedStateRegistryOwner: SavedStateRegistryOwner,
     crossinline initialStateFactory: () -> Bundle?,
@@ -87,7 +87,7 @@ inline fun <reified VM : ViewModel> createSavedStateViewModel(
 /**
  * Internal function to create ViewModels by invoking a custom factory
  */
-inline fun <reified VM : ViewModel> createViewModel(
+public inline fun <reified VM : ViewModel> createViewModel(
     viewModelStoreOwner: ViewModelStoreOwner,
     crossinline viewModelFactory: () -> VM
 ): VM {
