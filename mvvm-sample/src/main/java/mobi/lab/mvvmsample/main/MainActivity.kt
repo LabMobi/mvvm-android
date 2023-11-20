@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(R.layout.main), MvvmLiveDataExtensions {
             if (action is MainViewModel.Action.OpenSecondScreen) {
                 startActivity(Intent(this, SecondActivity::class.java))
             }
+            return@onEachEvent true
         }
     }
 }

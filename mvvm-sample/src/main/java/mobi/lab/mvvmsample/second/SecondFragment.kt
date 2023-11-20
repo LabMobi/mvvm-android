@@ -1,5 +1,6 @@
 package mobi.lab.mvvmsample.second
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,19 +48,24 @@ class SecondFragment : Fragment(R.layout.fragment_second), MvvmLiveDataExtension
             }
         }
         viewModel.action.onEachEvent { action ->
-            when (action) {
-                is SecondViewModel.Action.ShowConfirmCoolDialog -> showConfirmCoolDialog()
-                is SecondViewModel.Action.ShowConfirmNotCoolDialog -> showConfirmNotCoolDialog()
+            val context = context
+            if (context == null) {
+                return@onEachEvent false
             }
+            when (action) {
+                is SecondViewModel.Action.ShowConfirmCoolDialog -> showConfirmCoolDialog(context)
+                is SecondViewModel.Action.ShowConfirmNotCoolDialog -> showConfirmNotCoolDialog(context)
+            }
+            return@onEachEvent true
         }
     }
 
-    private fun showConfirmCoolDialog() {
-        Toast.makeText(activity, getString(R.string.text_cool), Toast.LENGTH_SHORT).show()
+    private fun showConfirmCoolDialog(context: Context) {
+        Toast.makeText(context, getString(R.string.text_cool), Toast.LENGTH_SHORT).show()
     }
 
-    private fun showConfirmNotCoolDialog() {
-        Toast.makeText(activity, getString(R.string.text_not_cool), Toast.LENGTH_SHORT).show()
+    private fun showConfirmNotCoolDialog(context: Context) {
+        Toast.makeText(context, getString(R.string.text_not_cool), Toast.LENGTH_SHORT).show()
     }
 
     companion object {
