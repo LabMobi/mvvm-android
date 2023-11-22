@@ -16,7 +16,7 @@ public interface MvvmLiveDataExtensions {
     }
 
     @Suppress("UNCHECKED_CAST")
-    public fun <T, E : SingleEvent<T>> LiveData<E>.onEachEvent(block: (T) -> Unit) {
+    public fun <T, E : SingleEvent<T>> LiveData<E>.onEachEvent(block: (T) -> Boolean) {
         this.observe(getLifecycleOwner(), SingleEventObserver<T> { block(it) } as Observer<E>)
     }
 }

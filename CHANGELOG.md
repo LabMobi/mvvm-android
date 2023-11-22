@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project does not use semantic versioning.
 
+## 3.0.0 - 2023.11.20
+
+### Breaking change
+
+- `LiveData.onEachEvent` block expects a Boolean result value. This will control whether the event is marked as handled or not. This is useful when the event is received in a state where the action can't be handled. Return `true` to keep the previous behaviour.
+
 ## 2.1.0 - 2023.07.25
 
 ### Added
