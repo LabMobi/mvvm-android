@@ -3,10 +3,10 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.vanniktech.maven.publish'
 
 android {
     android {
@@ -39,7 +39,7 @@ android {
         version rootProject.ext.libraryVersion
     }
 
-    libraryVariants.all { variant ->
+    libraryVariants.configureEach { variant ->
         variant.outputs.all { output ->
             if (variant.buildType.getName().contains("release")) {
                 // Don't add the variant name to release artefacts
@@ -53,12 +53,6 @@ android {
     lint {
         fatal "StopShip"
     }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
-    }
 }
 
 dependencies {
@@ -70,81 +64,65 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 }
 
+mavenPublishing {
+    // the first parameter represents which variant is published
+    // the second whether to publish a sources jar
+    // the third whether to publish a javadoc jar
+    //configure(new AndroidSingleVariantLibrary("release", true, true))
+
+    // false - manual release required via https://central.sonatype.com/publishing/deployments
+    publishToMavenCentral(false)
+
+    signAllPublications()
+
+    coordinates("mobi.lab.mvvm", "mvvm", "${rootProject.ext.libraryVersion}")
+
+    pom {
+        name = "Mobi Lab MVVM library."
+        description = "Mobi Lab MVVM is a library for using the MVVM architecture in your Android application."
+        inceptionYear = "2019"
+        url = "https://github.com/LabMobi/mvvm-android"
+        licenses {
+            license {
+                name = "The MIT License"
+                url = "https://opensource.org/licenses/mit-license.php"
+                distribution = "https://opensource.org/licenses/mit-license.php"
+            }
+        }
+        developers {
+            developer {
+                id = "android@lab.mobi"
+                name = "Mobi Lab"
+                url = "https://lab.mobi"
+            }
+        }
+        scm {
+            connection = 'https://github.com/LabMobi/mvvm-android.git'
+            developerConnection = 'https://github.com/LabMobi/mvvm-android.git'
+            url = 'https://github.com/LabMobi/mvvm-android'
+        }
+    }
+}
+
 def GROUP_CI_BUILD_TASKS = "Build"
 
-task buildLibDebug(dependsOn: ["build"])
-buildLibDebug.group = GROUP_CI_BUILD_TASKS
-buildLibDebug.description = "Build the debug version of components lib"
-
-task buildLibRelease(dependsOn: ["buildLibDebug"])
-buildLibRelease.group = GROUP_CI_BUILD_TASKS
-buildLibRelease.description = "Build the release version of components lib"
-
-task buildAndPublishRelease(dependsOn: ['buildLibRelease', 'publish'])
-buildAndPublishRelease.group = GROUP_CI_BUILD_TASKS
-buildAndPublishRelease.description = "Build the library release version and publish it"
-
-publish.mustRunAfter tasks.findByPath('buildLibRelease')
-
-Properties properties = new Properties()
-try {
-    properties.load(project.rootProject.file('publish.properties').newDataInputStream())
-} catch (Exception ignored) {
-    println "publish.properties missing"
+tasks.register('buildLibDebug') {
+    group = GROUP_CI_BUILD_TASKS
+    description = "Build the debug version of components lib"
+    dependsOn "build"
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                groupId = 'mobi.lab.mvvm'
-                artifactId = 'mvvm'
-                from components.release
-                pom {
-                    packaging = 'aar'
-                    name = 'Mobi Lab MVVM library.'
-                    description = 'Mobi Lab MVVM is a library for using the MVVM architecture in your Android application.'
-                    url = 'https://github.com/LabMobi/mvvm-android'
-
-                    licenses {
-                        license {
-                            name = 'The MIT License'
-                            url = 'https://opensource.org/licenses/mit-license.php'
-                        }
-                    }
-                    developers {
-                        developer {
-                            name = properties.getProperty("publish_developer_name")
-                            name = properties.getProperty("publish_developer_name")
-                            email = properties.getProperty("publish_developer_email")
-                            organization = properties.getProperty("publish_developer_organization")
-                            organizationUrl = properties.getProperty("publish_developer_organization_url")
-                        }
-                    }
-                    scm {
-                        connection = 'https://github.com/LabMobi/mvvm-android.git'
-                        developerConnection = 'https://github.com/LabMobi/mvvm-android.git'
-                        url = 'https://github.com/LabMobi/mvvm-android'
-                    }
-                }
-            }
-        }
-        repositories {
-            maven {
-                name = "ossrh-staging-api"
-                url = "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/"
-                credentials {
-                    username = properties.getProperty("publish_ossrh_username")
-                    password = properties.getProperty("publish_ossrh_password")
-                }
-            }
-        }
-    }
-
-    signing {
-        def signingKey = properties.getProperty("signing_key")
-        def signingPassword = properties.getProperty("signing_password")
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign publishing.publications
-    }
+tasks.register('buildLibRelease') {
+    group = GROUP_CI_BUILD_TASKS
+    description = "Build the release version of components lib"
+    dependsOn "buildLibDebug"
 }
+
+tasks.register('buildAndPublishRelease') {
+    group = "Publish"
+    description = "Build the library release version and publish it"
+    dependsOn "buildLibRelease", "checkCode", "publishToMavenCentral"
+}
+
+publishToMavenCentral.mustRunAfter tasks.named('buildLibRelease').get()
+publishToMavenCentral.mustRunAfter tasks.checkCode
