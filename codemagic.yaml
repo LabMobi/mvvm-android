@@ -44,7 +44,6 @@ definitions:
     - &stepBuildPublish
       name: Publish to Maven Central
       script: |
-        echo $PUBLISH_PROPS | base64 --decode > publish.properties
         ./gradlew buildAndPublishRelease
     
 
@@ -71,7 +70,7 @@ workflows:
     environment:
       java: 17
       groups:
-        - publishing_props
+        - mavenCentralPublishing
     scripts:
       - *stepLocalSetup
       - *stepCheckCode
